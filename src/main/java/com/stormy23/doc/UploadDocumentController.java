@@ -1,18 +1,21 @@
 package com.stormy23.doc;
 
+import com.stormy23.model.Document;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UploadDocumentController {
 
-    @GetMapping(value = {"/upload/document", "/upload/document/", "/upload/document/{id}"})
-    public String greeting(@PathVariable(required = false) String id, Model model) {
-        model.addAttribute("name", id);
-        return "greeting";
+    @GetMapping(value = {"/upload/document", "/upload/document/"})
+    public String uploadDocumentForm(Model model) {
+        return "upload-doc";
+    }
+
+    @PostMapping(value = {"/upload/document", "/upload/document/"})
+    public String uploadDocumentSubmit(@ModelAttribute Document document) {
+        return "redirect:/document/";
     }
 
 }

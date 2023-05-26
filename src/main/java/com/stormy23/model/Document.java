@@ -2,8 +2,6 @@ package com.stormy23.model;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
 @Table(name = "Document")
 public class Document {
@@ -42,7 +40,7 @@ public class Document {
         return author;
     }
 
-    public boolean isExtern() {
+    public boolean getExtern() {
         return extern;
     }
 

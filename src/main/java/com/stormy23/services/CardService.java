@@ -24,14 +24,18 @@ public class CardService {
         return cardRepository.findById(id).orElse(null);
     }
 
+    public Card get(Document document) {
+        return cardRepository.getCardByDocument(document);
+    }
+
     public void create(Card card) {
         cardRepository.save(card);
     }
 
     public void externByID(Long id, String externNumber) {
         Card card = getByID(id);
-        card.setExtern_number(externNumber);
-        card.setDate_extern(new Date());
+        card.setExternnumber(externNumber);
+        card.setDateextern(new Date());
         cardRepository.save(card);
     }
 }

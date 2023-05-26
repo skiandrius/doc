@@ -1,5 +1,6 @@
 package com.stormy23.services;
 
+import com.stormy23.model.Document;
 import com.stormy23.model.Version;
 import com.stormy23.repositories.VersionRepository;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,8 @@ public class VersionService {
         this.versionRepository = versionRepository;
     }
 
-    public List<Version> list() {
-        return versionRepository.findAll();
+    public List<Version> list(Document document) {
+        return versionRepository.findAllByDocument(document);
     }
 
     public Version getByID(Long id) {
