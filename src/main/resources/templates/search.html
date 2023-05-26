@@ -71,19 +71,8 @@
   .bd-mode-toggle {
     z-index: 1500;
   }
-
-  .form-floating {
+  .form-floating{
     margin-bottom: 15px;
-
-  }
-
-  .container-buttons {
-    display: flex;
-    justify-content: space-around;
-  }
-
-  .w-10 {
-    width: 375px;
   }
 </style>
 <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-primary ">
@@ -92,12 +81,10 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav me-auto mb-2 mb-md-0">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/"><i style="font-size: 1.35em;"
-                                                                                                                  class="bi bi-house mx-2"></i></a>
+          <a class="nav-link" aria-current="page" href="/"><i style="font-size: 1.35em;" class="bi bi-house mx-2"></i></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/upload/document"><i style="font-size: 1.35em;"
-                                                      class="bi bi-box-arrow-in-down mx-2"></i></a>
+          <a class="nav-link" href="/download"><i style="font-size: 1.35em;" class="bi bi-box-arrow-in-down mx-2"></i></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/search"><i style="font-size: 1.35em;" class="bi bi-search mx-2"></i></a>
@@ -108,22 +95,24 @@
 </nav>
 
 
+
 <main class="form-signin w-50 m-auto">
-  <form action="#" method="post" th:action="@{/remove}" th:object="${form}" enctype="multipart/form-data">
-    <h1 class="h3 mb-3 mt-5 fw-bold">Снятие с учета</h1>
+  <form action="#" method="post" th:action="@{/search}" th:object="${form}">
+    <h1 class="h3 mb-3 mt-5 fw-bold">Поиск документа</h1>
     <div class="form-floating">
-      <input type="text" id="documentid" name="documentid" readonly th:value="${document_id}" class="form-control">
-      <label for="documentid">Идентификатор</label>
+      <input type = "text" class="form-control" id="docname" th:field="*{docname}" required  placeholder="Password">
+      <label for="docname">Название</label>
     </div>
     <div class="form-floating">
-      <input type="text" class="form-control" id="externnumber" th:field="*{externnumber}" required placeholder="name@example.com">
-      <label for="externnumber">Исходящий номер</label>
+      <input type = "text" class="form-control" id="intronumber" th:field="*{intronumber}" required placeholder="Password">
+      <label for="intronumber">Входящий номер</label>
     </div>
-    <div class="container-buttons">
-      <a class="w-10 btn btn-lg btn-primary" th:href="'/document/' + ${document_id}">Назад</a>
-      <button class="w-10 btn btn-lg btn-primary" type="submit">Снять с учета</button>
+    <div class="form-floating">
+      <input  type="date" class="form-control" pattern="yyyy-MM-dd" id="dateintro" name="dateintro"  required placeholder="name@example.com">
+      <label for="dateintro">Дата</label>
     </div>
 
+    <button class="w-50 btn btn-lg btn-primary" type="submit">Поиск</button>
   </form>
 
 </main>

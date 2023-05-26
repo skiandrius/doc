@@ -2,6 +2,8 @@ package com.stormy23.model;
 
 import jakarta.persistence.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -34,7 +36,14 @@ public class Card {
     public Card(Document document, String intronumber) {
         this.document = document;
         this.intronumber = intronumber;
-        this.dateintro = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateWithoutTime;
+        try {
+            dateWithoutTime = sdf.parse(sdf.format(new Date()));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        this.dateintro = dateWithoutTime;
     }
 
 

@@ -19,7 +19,8 @@ public class Version {
     private String author;
 
     @Column(name = "version_content")
-    private File content;
+
+    private byte[] content;
 
     @Column(name = "version_number")
     private long number;
@@ -28,7 +29,7 @@ public class Version {
 
     }
 
-    public Version(Document document, String author, File content, long number) {
+    public Version(Document document, String author, byte[] content, long number) {
         this.document = document;
         this.author = author;
         this.content = content;
@@ -47,8 +48,12 @@ public class Version {
         return document;
     }
 
-    public File getContent() {
+    public byte[] getContent() {
         return content;
+    }
+
+    public void setContent(byte[] content) {
+        this.content = content;
     }
 
     public long getNumber() {

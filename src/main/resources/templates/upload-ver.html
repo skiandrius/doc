@@ -71,10 +71,20 @@
     .bd-mode-toggle {
         z-index: 1500;
     }
-    .form-floating{
+
+    .form-floating {
         margin-bottom: 15px;
+
     }
 
+    .container-buttons {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .w-10 {
+        width: 375px;
+    }
 </style>
 <nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-primary ">
     <div class="container-fluid">
@@ -86,7 +96,8 @@
                                                                                                                             class="bi bi-house mx-2"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/upload/document"><i style="font-size: 1.35em;" class="bi bi-box-arrow-in-down mx-2"></i></a>
+                    <a class="nav-link" href="/upload/document"><i style="font-size: 1.35em;"
+                                                                class="bi bi-box-arrow-in-down mx-2"></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/search"><i style="font-size: 1.35em;" class="bi bi-search mx-2"></i></a>
@@ -97,27 +108,26 @@
 </nav>
 
 
-
 <main class="form-signin w-50 m-auto">
-    <form action="#" method="post" th:action="@{/upload/document}" th:object="${form}" enctype="multipart/form-data">
-        <h1 class="h3 mb-3 mt-5 fw-bold">Загрузка нового документа</h1>
-
+    <form action="#" method="post" th:action="@{/upload/version}" th:object="${form}" enctype="multipart/form-data">
+        <h1 class="h3 mb-3 mt-5 fw-bold">Загрузка новой версии</h1>
         <div class="form-floating">
-            <input type="text" class="form-control" id="floatingInput" th:field="*{author}" required placeholder="Логин">
+            <input type="text" readonly th:value="${document_id}" name="documentid" class="form-control" id="documentid"
+                   placeholder="Password">
+            <label for="floatingInput">Идентификатор документа</label>
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInput" th:field="*{author}" required placeholder="name@example.com">
             <label for="floatingInput">Логин</label>
         </div>
-        <div class="form-floating">
-                <input type="text" class="form-control" id="floatingName" th:field="*{name}" required placeholder="Название">
-            <label for="floatingInput">Название</label>
-        </div>
-        <div class="form-floating">
-            <input type="text" class="form-control" id="floatingNumber" th:field="*{number}" required placeholder="Входящий номер">
-            <label for="floatingInput">Входящий номер</label>
-        </div>
         <div class="mb-3">
-            <input class="form-control" type="file" name="file" required accept="text/plain" id="file">
+            <input class="form-control" type="file" name="file" accept="text/plain" required id="formFile">
         </div>
-        <button class="w-50 btn btn-lg btn-primary" type="submit">Загрузить</button>
+        <div class="container-buttons">
+            <a class="w-10 btn btn-lg btn-primary" th:href="'/document/' + ${document_id}">Назад</a>
+            <button class="w-10 btn btn-lg btn-primary" type="submit">Загрузить</button>
+        </div>
+
     </form>
 
 </main>

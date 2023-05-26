@@ -8,6 +8,9 @@ import com.stormy23.services.DocumentService;
 import com.stormy23.services.VersionService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -15,10 +18,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.*;
 import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.util.List;
 
 @Controller
 public class VersionController {
+
     private final DocumentService docservice;
 
     private final VersionService verservice;
@@ -31,9 +36,11 @@ public class VersionController {
         this.cardservice = cardservice;
     }
     @RequestMapping (value = {"/version", "/version/", "/version/{id}"}, method = RequestMethod.GET)
-    public String greeting(HttpServletRequest request, HttpServletResponse response, @PathVariable(required = false) String id, Model model)  {
+    public ResponseEntity downloadVersion(HttpServletRequest request, HttpServletResponse response, @PathVariable(required = false) String id, Model model)  {
         if (id == null) {
-            return "notfound";
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Location", "/error");
+            return new ResponseEntity<String>(headers,HttpStatus.FOUND);
         }
 
         long long_id;
@@ -41,43 +48,30 @@ public class VersionController {
         try {
             long_id = Long.parseLong(id);
         } catch (NumberFormatException e) {
-            return "406";
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Location", "/error");
+            return new ResponseEntity<String>(headers,HttpStatus.FOUND);
         }
 
         Version version = verservice.getByID(long_id);
 
         if (version == null) {
-            return "notfound";
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Location", "/error");
+            return new ResponseEntity<String>(headers,HttpStatus.FOUND);
         }
 
-        File file = version.getContent();
+        byte[] filebytes = version.getContent();
 
-        if (file == null) {
-            return "404";
+        if (filebytes == null) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Location", "/error");
+            return new ResponseEntity<String>(headers,HttpStatus.FOUND);
         }
 
-        if (file.exists()) {
-            String mimeType = URLConnection.guessContentTypeFromName(file.getName());
-            if (mimeType == null) {
-                mimeType = "application/octet-stream";
-            }
-
-            response.setContentType(mimeType);
-
-            response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
-
-            response.setContentLength((int) file.length());
-
-            try {
-                InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-                FileCopyUtils.copy(inputStream, response.getOutputStream());
-            } catch (IOException e) {
-                return "500";
-            }
-
-        }
-
-        return "document";
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + version.getAuthor() + "-version-" + version.getNumber() + ".txt\"")
+                .body(version.getContent());
     }
 
 }

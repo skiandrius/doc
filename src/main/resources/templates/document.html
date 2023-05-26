@@ -122,9 +122,9 @@
 
 <main class="container">
   <div class="bg-body-tertiary p-5 rounded">
-    <div class = "container-buttons">
+    <div class = "container-buttons" th:if="${card.externnumber == null}">
       <h1 style = "margin-bottom: 20px;margin-right: 30px">Все версии данного документа</h1>
-      <div class=" w-10 h-25 btn btn-md btn-primary" style = "margin-top: 10px;" > <a style = "text-decoration: none;color: inherit;" th:href="@{'/upload/version' + ${document.id}}">Загрузить новую версию</a> </div>
+      <div class=" w-10 h-25 btn btn-md btn-primary" style = "margin-top: 10px;" > <a style = "text-decoration: none;color: inherit;" th:href="@{'/upload/version/' + ${document.id}}">Загрузить новую версию</a> </div>
       <a class="w-10 h-25 btn btn-md btn-primary" style = "margin-top: 10px;" th:href="@{'/remove/' + ${document.id}}">Снять с учета</a>
     </div>
     <div class="container-info">

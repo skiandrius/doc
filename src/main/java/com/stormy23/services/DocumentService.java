@@ -22,8 +22,12 @@ public class DocumentService {
         return documentRepository.findById(id).orElse(null);
     }
 
-    public void create(Document document) {
-        documentRepository.save(document);
+    public List<Document> getDocumentsByName(String name) {
+        return documentRepository.getDocumentsByName(name);
+    }
+
+    public Document create(Document document) {
+        return documentRepository.save(document);
     }
 
     public void setExtern(Document document) {
